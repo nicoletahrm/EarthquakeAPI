@@ -37,6 +37,7 @@ namespace Earthquake.API.Processor
 
             var content = await response.Content.ReadAsStringAsync();
             var earthquake = JsonConvert.DeserializeObject<Earthquake>(content);
+            earthquake.Id = Guid.NewGuid().ToString();
 
             
             if (await _earthquakeRepository.Create(earthquake))

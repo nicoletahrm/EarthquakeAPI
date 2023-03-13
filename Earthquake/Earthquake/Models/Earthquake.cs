@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace Earthquake
 {
     public class Earthquake
     {
-        public Guid Id { get; set; }
+        [BsonId]
+        public string Id { get; set; }
 
         [JsonProperty("type")]
         public string? Type { get; set; }
