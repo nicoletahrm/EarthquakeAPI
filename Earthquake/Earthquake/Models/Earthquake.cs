@@ -5,9 +5,6 @@ namespace Earthquake
 {
     public class Earthquake
     {
-        [BsonId]
-        public string Id { get; set; }
-
         [JsonProperty("type")]
         public string? Type { get; set; }
         public Metadata? Metadata { get; set; }

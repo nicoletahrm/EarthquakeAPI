@@ -2,7 +2,11 @@
 using Earthquake.API.Models;
 using Earthquake.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using MongoDB.Bson.Serialization;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Earthquake.API.Processor
 {
@@ -36,19 +40,59 @@ namespace Earthquake.API.Processor
             }
 
             var content = await response.Content.ReadAsStringAsync();
-            var earthquake = JsonConvert.DeserializeObject<Earthquake>(content);
-            earthquake.Id = Guid.NewGuid().ToString();
+            var earthquake = JsonConvert.DeserializeObject<Earthquake>(content).Features.FirstOrDefault();
 
-            
-            if (await _earthquakeRepository.Create(earthquake))
+            EarthquakeEntity earthquakeEntity = _mapper.Map<EarthquakeEntity>(earthquake);
+            earthquakeEntity.Id = Guid.NewGuid().ToString();
+
+            if (await _earthquakeRepository.Create(earthquakeEntity))
             {
-                EarthquakeResponse earthquakeResponse = _mapper.Map<EarthquakeResponse>(earthquake);
+                EarthquakeResponse earthquakeResponse = _mapper.Map<EarthquakeResponse>(earthquakeEntity);
 
                 return new ObjectResult(earthquakeResponse);
              }
 
             return new ObjectResult(null);
+        }
 
+        public async Task<IActionResult> GetEarthquakesByParams(String startTime, String endTime, Decimal maxmagnitude, String orderBy)
+        {
+            var httpClient = _httpClientFactory.CreateClient();
+            var response = await httpClient.GetAsync($"{_baseUrl}&starttime={startTime}&endtime={endTime}&maxmagnitude={maxmagnitude}&orderby={orderBy}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new BadRequestObjectResult("Error earthquake invalid data.");
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            var earthquakesFeatures = JsonConvert.DeserializeObject<Earthquake>(content).Features;
+
+            List<EarthquakeEntity> responseList = new();
+
+            foreach (var earthquakeFeature in earthquakesFeatures)
+            {
+                EarthquakeEntity earthquakeEntity = _mapper.Map<EarthquakeEntity>(earthquakeFeature);
+                earthquakeEntity.Id = Guid.NewGuid().ToString();
+
+                responseList.Add(earthquakeEntity);
+            }
+
+            List<EarthquakeResponse> earthquakeResponses = new();
+
+            if (await _earthquakeRepository.CreateMany(responseList))
+            {
+                foreach (var earthquake in responseList)
+                {
+                    EarthquakeResponse earthquakeResponse = _mapper.Map<EarthquakeResponse>(earthquake);
+
+                    earthquakeResponses.Add(earthquakeResponse);
+                }
+
+                return new ObjectResult(earthquakeResponses);
+            }
+
+            return new ObjectResult(null);
         }
     }
 }

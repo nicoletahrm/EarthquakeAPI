@@ -22,5 +22,11 @@ namespace Earthquake.Controllers
             return await _earthquakeProcessor.GetLatestEarthquakeFromRomania();
 
         }
+
+        [HttpGet("earthquakes-by-params")]
+        public async Task<IActionResult> GetEarthquakesByParams(String startTime, String endTime, Decimal maxmagnitude, String orderBy)
+        {
+            return await _earthquakeProcessor.GetEarthquakesByParams(startTime, endTime, maxmagnitude, orderBy);
+        }
     }
 }
