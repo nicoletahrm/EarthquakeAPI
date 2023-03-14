@@ -4,9 +4,12 @@ using Earthquake.API.Models.Requests;
 using Earthquake.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.OpenApi.Extensions;
 using MongoDB.Bson.Serialization;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace Earthquake.API.Processor
@@ -60,9 +63,19 @@ namespace Earthquake.API.Processor
         {
             var httpClient = _httpClientFactory.CreateClient();
 
-            string maxmagnitude = earthquakeRequest.MaxMagnitude.ToString();
+            HttpResponseMessage response = new();
 
-            var response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}&maxmagnitude={maxmagnitude}&orderby={earthquakeRequest.OrderBy}");
+            //if (earthquakeRequest.MaxMagnitude != null)
+            //{
+                string maxmagnitude = earthquakeRequest.MaxMagnitude.ToString();
+                string orderBy = earthquakeRequest.OrderBy.ToString();
+
+                response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}&maxmagnitude={maxmagnitude}&orderby={orderBy}");
+            //}
+            //else
+            //{
+               // response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}&maxmagnitude={maxmagnitude}");
+           // }
 
             if (!response.IsSuccessStatusCode)
             {
