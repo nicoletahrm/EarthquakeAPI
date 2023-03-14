@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Earthquake.API.Models.Requests;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Earthquake.API.Processor
 {
@@ -6,6 +7,6 @@ namespace Earthquake.API.Processor
     {
         Task<IActionResult> GetLatestEarthquakeFromRomania();
 
-        Task<IActionResult> GetEarthquakesByParams(String startTime, String endTime, Decimal maxmagnitude, String orderBy);
+        Task<IActionResult> GetEarthquakesByParams(EarthquakeRequest earthquakeRequest);
     }
 }

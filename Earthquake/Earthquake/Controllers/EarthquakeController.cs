@@ -1,6 +1,8 @@
 ﻿using Earthquake.API.Models;
+using Earthquake.API.Models.Requests;
 using Earthquake.API.Processor;
 using Earthquake.API.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Earthquake.Controllers
@@ -24,9 +26,17 @@ namespace Earthquake.Controllers
         }
 
         [HttpGet("earthquakes-by-params")]
-        public async Task<IActionResult> GetEarthquakesByParams(String startTime, String endTime, Decimal maxmagnitude, String orderBy)
+        public async Task<IActionResult> GetEarthquakesByParams([FromQuery] EarthquakeRequest earthquakeRequest)
         {
-            return await _earthquakeProcessor.GetEarthquakesByParams(startTime, endTime, maxmagnitude, orderBy);
+            EarthquakeRequest earthquake = new()
+            {
+                StartTime = earthquakeRequest.StartTime,
+                EndTime = earthquakeRequest.EndTime,
+                Maxmagnitude = earthquakeRequest.Maxmagnitude,
+                OrderBy = earthquakeRequest.OrderBy
+            };
+
+           return await _earthquakeProcessor.GetEarthquakesByParams(earthquake);
         }
     }
 }

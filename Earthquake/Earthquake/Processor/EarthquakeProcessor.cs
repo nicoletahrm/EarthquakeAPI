@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Earthquake.API.Models;
+using Earthquake.API.Models.Requests;
 using Earthquake.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -55,10 +56,13 @@ namespace Earthquake.API.Processor
             return new ObjectResult(null);
         }
 
-        public async Task<IActionResult> GetEarthquakesByParams(String startTime, String endTime, Decimal maxmagnitude, String orderBy)
+        public async Task<IActionResult> GetEarthquakesByParams(EarthquakeRequest earthquakeRequest)
         {
             var httpClient = _httpClientFactory.CreateClient();
-            var response = await httpClient.GetAsync($"{_baseUrl}&starttime={startTime}&endtime={endTime}&maxmagnitude={maxmagnitude}&orderby={orderBy}");
+
+            string maxmagnitude = earthquakeRequest.Maxmagnitude.ToString();
+
+            var response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}&maxmagnitude={maxmagnitude}&orderby={earthquakeRequest.OrderBy}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -74,7 +78,6 @@ namespace Earthquake.API.Processor
             {
                 EarthquakeEntity earthquakeEntity = _mapper.Map<EarthquakeEntity>(earthquakeFeature);
                 earthquakeEntity.Id = Guid.NewGuid().ToString();
-
                 responseList.Add(earthquakeEntity);
             }
 
@@ -85,10 +88,8 @@ namespace Earthquake.API.Processor
                 foreach (var earthquake in responseList)
                 {
                     EarthquakeResponse earthquakeResponse = _mapper.Map<EarthquakeResponse>(earthquake);
-
                     earthquakeResponses.Add(earthquakeResponse);
                 }
-
                 return new ObjectResult(earthquakeResponses);
             }
 
