@@ -32,7 +32,7 @@ namespace Earthquake.Controllers
             {
                 StartTime = earthquakeRequest.StartTime,
                 EndTime = earthquakeRequest.EndTime,
-                Maxmagnitude = earthquakeRequest.Maxmagnitude,
+                MaxMagnitude = earthquakeRequest.MaxMagnitude,
                 OrderBy = earthquakeRequest.OrderBy
             };
 

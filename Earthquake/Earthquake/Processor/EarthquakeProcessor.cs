@@ -60,7 +60,7 @@ namespace Earthquake.API.Processor
         {
             var httpClient = _httpClientFactory.CreateClient();
 
-            string maxmagnitude = earthquakeRequest.Maxmagnitude.ToString();
+            string maxmagnitude = earthquakeRequest.MaxMagnitude.ToString();
 
             var response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}&maxmagnitude={maxmagnitude}&orderby={earthquakeRequest.OrderBy}");
 
