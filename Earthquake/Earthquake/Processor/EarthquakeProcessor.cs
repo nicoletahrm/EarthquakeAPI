@@ -46,10 +46,10 @@ namespace Earthquake.API.Processor
             {
                 EarthquakeResponse earthquakeResponse = _mapper.Map<EarthquakeResponse>(earthquakeEntity);
 
-                return new ObjectResult(earthquakeResponse);
+                return new OkObjectResult(earthquakeResponse);
              }
 
-            return new ObjectResult(null);
+            return new BadRequestResult();
         }
 
         public async Task<IActionResult> GetEarthquakesByParams(EarthquakeRequest earthquakeRequest)
@@ -103,10 +103,10 @@ namespace Earthquake.API.Processor
                     EarthquakeResponse earthquakeResponse = _mapper.Map<EarthquakeResponse>(earthquake);
                     earthquakeResponses.Add(earthquakeResponse);
                 }
-                return new ObjectResult(earthquakeResponses);
+                return new OkObjectResult(earthquakeResponses);
             }
 
-            return new ObjectResult(null);
+            return new BadRequestResult();
         }
     }
 }
