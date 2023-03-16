@@ -13,7 +13,7 @@ namespace Earthquake.Controllers
     {
         private readonly IEarthquakeProcessor _earthquakeProcessor;
 
-        public EarthquakeController(IEarthquakeProcessor earthquakeProcessor, IEarthquakeRepository earthquakeRepository)
+        public EarthquakeController(IEarthquakeProcessor earthquakeProcessor)
         {
             _earthquakeProcessor = earthquakeProcessor ?? throw new ArgumentNullException(nameof(earthquakeProcessor));
         }

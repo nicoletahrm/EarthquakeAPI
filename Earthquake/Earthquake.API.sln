@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Earthquake.API", "Earthquake\Earthquake.API.csproj", "{69D5FDEA-D808-4802-BD84-EC1F389151AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Earthquake.API", "Earthquake\Earthquake.API.csproj", "{69D5FDEA-D808-4802-BD84-EC1F389151AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EartquakesAPI.Tests", "EartquakesAPI.Tests\EartquakesAPI.Tests.csproj", "{2AF6F998-1C40-432B-BF98-75D8EA9465EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{69D5FDEA-D808-4802-BD84-EC1F389151AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69D5FDEA-D808-4802-BD84-EC1F389151AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69D5FDEA-D808-4802-BD84-EC1F389151AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF6F998-1C40-432B-BF98-75D8EA9465EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF6F998-1C40-432B-BF98-75D8EA9465EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF6F998-1C40-432B-BF98-75D8EA9465EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF6F998-1C40-432B-BF98-75D8EA9465EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
