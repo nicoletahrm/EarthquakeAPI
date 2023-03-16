@@ -25,23 +25,21 @@ namespace Earthquake.API.Validations
                 .WithMessage("EndTime is not a valid date.");
 
             RuleFor(e => e.MaxMagnitude)
-                .NotEmpty()
                 .LessThan(10)
-                .WithMessage("MaxMagnitude is too big. Needs to be less than 10.");
+                .GreaterThan(-1)
+                .WithMessage("MaxMagnitude needs to be bigger than -1 and less than 10.");
 
             RuleFor(e => e.OrderBy)
-                .NotNull().NotEmpty()
                 .Must(BeOrderedBy).WithMessage("OrderBy is not valid. Try time, time-asc, magnitute or magnitude-asc.");
 
             RuleFor(e => new {e.StartTime, e.EndTime})
-                .NotNull().NotEmpty()
                 .Must(x => StartTimeLessThanEndTime(x.StartTime, x.EndTime))
                 .WithMessage("StartTime > EndTime");
         }
 
         public bool BeOrderedBy(string orderBy)
         {
-            return orderByList.Contains(orderBy);
+            return orderByList.Contains(orderBy) || orderBy == null;
         }
 
         public bool StartTimeLessThanEndTime(DateTime? startTime, DateTime? endTime)

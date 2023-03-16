@@ -3,14 +3,7 @@ using Earthquake.API.Models;
 using Earthquake.API.Models.Requests;
 using Earthquake.API.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.OpenApi.Extensions;
-using MongoDB.Bson.Serialization;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace Earthquake.API.Processor
 {
@@ -65,17 +58,24 @@ namespace Earthquake.API.Processor
 
             HttpResponseMessage response = new();
 
-            //if (earthquakeRequest.MaxMagnitude != null)
-            //{
-                string maxmagnitude = earthquakeRequest.MaxMagnitude.ToString();
-                string orderBy = earthquakeRequest.OrderBy.ToString();
+            string maxmagnitude = earthquakeRequest.MaxMagnitude?.ToString();
+            string orderBy = earthquakeRequest.OrderBy?.ToString();
 
-                response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}&maxmagnitude={maxmagnitude}&orderby={orderBy}");
-            //}
-            //else
-            //{
-               // response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}&maxmagnitude={maxmagnitude}");
-           // }
+            switch (maxmagnitude, orderBy)
+            {
+                case ("null", "null"):
+                    response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}");
+                    break;
+                case ("null", _):
+                    response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}&orderby={orderBy}");
+                    break;
+                case (_, "null"):
+                    response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}&maxmagnitude={maxmagnitude}");
+                    break;
+                default:
+                    response = await httpClient.GetAsync($"{_baseUrl}&starttime={earthquakeRequest.StartTime}&endtime={earthquakeRequest.EndTime}&maxmagnitude={maxmagnitude}&orderby={orderBy}");
+                    break;
+            }
 
             if (!response.IsSuccessStatusCode)
             {

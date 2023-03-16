@@ -36,7 +36,7 @@ namespace Earthquake.Controllers
                 OrderBy = earthquakeRequest.OrderBy
             };
 
-           return await _earthquakeProcessor.GetEarthquakesByParams(earthquake);
+            return await _earthquakeProcessor.GetEarthquakesByParams(earthquake);
         }
     }
 }

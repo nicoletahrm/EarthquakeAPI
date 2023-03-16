@@ -7,6 +7,7 @@ namespace Earthquake.API.Models.Requests
     {
         [Required]
         public DateTime? StartTime { get; set; }
+        [Required]
         public DateTime? EndTime { get; set; }
         public decimal? MaxMagnitude { get; set; } 
         public string? OrderBy { get; set; }
