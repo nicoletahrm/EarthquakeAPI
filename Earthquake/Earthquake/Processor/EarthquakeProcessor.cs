@@ -23,13 +23,13 @@ namespace Earthquake.API.Processor
 
         public async Task<IActionResult> GetLatestEarthquakeFromRomania()
         {
-            var httpClient = _httpClientFactory.CreateClient();
+            var httpClient = _httpClientFactory.CreateClient(); //test1, setup
 
             string lat = "45.9432";
             string lon = "24.9668";
             string radius = "500";
 
-            var response = await httpClient.GetAsync($"{_baseUrl}&latitude={lat}&longitude={lon}&maxradiuskm={radius}&limit=1");
+            var response = await httpClient.GetAsync($"{_baseUrl}&latitude={lat}&longitude={lon}&maxradiuskm={radius}&limit=1"); // test2, setup
 
             if (!response.IsSuccessStatusCode)
             {
@@ -44,7 +44,7 @@ namespace Earthquake.API.Processor
 
             if (await _earthquakeRepository.Create(earthquakeEntity))
             {
-                EarthquakeResponse earthquakeResponse = _mapper.Map<EarthquakeResponse>(earthquakeEntity);
+                EarthquakeResponse earthquakeResponse = _mapper.Map<EarthquakeResponse>(earthquakeEntity); //test3, setup
 
                 return new OkObjectResult(earthquakeResponse);
              }

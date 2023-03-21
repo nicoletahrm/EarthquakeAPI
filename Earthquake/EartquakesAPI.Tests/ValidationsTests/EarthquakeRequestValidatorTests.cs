@@ -3,12 +3,6 @@ using Earthquake.API.Models.Requests;
 using Earthquake.API.Processor;
 using Earthquake.API.Validations;
 using FluentValidation.TestHelper;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EartquakesAPI.Tests.ValidationsTests
 {
