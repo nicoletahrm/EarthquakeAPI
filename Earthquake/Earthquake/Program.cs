@@ -30,7 +30,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddSingleton<IValidator<EarthquakeRequest>, EartquakeRequestValidator>();
+builder.Services.AddSingleton<IValidator<EarthquakeRequest>, EarthquakeRequestValidator>();
 
 var app = builder.Build();
 

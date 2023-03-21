@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Earthquake.API.Validations
 {
-    public class EartquakeRequestValidator : AbstractValidator<EarthquakeRequest>
+    public class EarthquakeRequestValidator : AbstractValidator<EarthquakeRequest>
     {
         private readonly List<string> orderByList = new()
         {
@@ -13,7 +13,7 @@ namespace Earthquake.API.Validations
             "magnitude-asc"
         };
 
-        public EartquakeRequestValidator()
+        public EarthquakeRequestValidator()
         {
             // date format = yyyy-mm-dd
             RuleFor(e => e.StartTime)
@@ -24,6 +24,10 @@ namespace Earthquake.API.Validations
                 .LessThan(DateTime.Now)
                 .WithMessage("EndTime is not a valid date.");
 
+            RuleFor(e => new { e.StartTime, e.EndTime })
+               .Must(x => StartTimeLessThanEndTime(x.StartTime, x.EndTime))
+               .WithMessage("StartTime > EndTime");
+
             RuleFor(e => e.MaxMagnitude)
                 .LessThan(10)
                 .GreaterThan(-1)
@@ -31,10 +35,6 @@ namespace Earthquake.API.Validations
 
             RuleFor(e => e.OrderBy)
                 .Must(BeOrderedBy).WithMessage("OrderBy is not valid. Try time, time-asc, magnitute or magnitude-asc.");
-
-            RuleFor(e => new {e.StartTime, e.EndTime})
-                .Must(x => StartTimeLessThanEndTime(x.StartTime, x.EndTime))
-                .WithMessage("StartTime > EndTime");
         }
 
         public bool BeOrderedBy(string orderBy)
