@@ -26,17 +26,17 @@ namespace Earthquake.Controllers
         }
 
         [HttpGet("earthquakes-by-params")]
-        public async Task<IActionResult> GetEarthquakesByParams([FromQuery] EarthquakeRequest earthquakeRequest)
+        public async Task<IActionResult> GetEarthquakesByParams([FromQuery] EarthquakeRequest request)
         {
-            EarthquakeRequest earthquake = new()
+            EarthquakeRequest earthquakeRequest = new()
             {
-                StartTime = earthquakeRequest.StartTime,
-                EndTime = earthquakeRequest.EndTime,
-                MaxMagnitude = earthquakeRequest.MaxMagnitude,
-                OrderBy = earthquakeRequest.OrderBy
+                StartTime = request.StartTime,
+                EndTime = request.EndTime,
+                MaxMagnitude = request.MaxMagnitude,
+                OrderBy = request.OrderBy
             };
 
-            return await _earthquakeProcessor.GetEarthquakesByParams(earthquake);
+            return await _earthquakeProcessor.GetEarthquakesByParams(earthquakeRequest);
         }
     }
 }

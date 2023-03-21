@@ -29,7 +29,7 @@ namespace Earthquake.API.Processor
             string lon = "24.9668";
             string radius = "500";
 
-            var response = await httpClient.GetAsync($"{_baseUrl}&latitude={lat}&longitude={lon}&maxradiuskm={radius}&limit=");
+            var response = await httpClient.GetAsync($"{_baseUrl}&latitude={lat}&longitude={lon}&maxradiuskm={radius}&limit=1");
 
             if (!response.IsSuccessStatusCode)
             {
