@@ -3,18 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EarthquakeListComponent } from './earthquake-list/earthquake-list.component';
+import { EarthquakeRomaniaComponent } from './earthquake-romania/earthquake-romania.component';
+import { HttpClientModule } from '@angular/common/http';
+import { EarthquakeService } from './services/earthquake.service';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    EarthquakeListComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+  declarations: [AppComponent, EarthquakeRomaniaComponent, WelcomeComponent],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  providers: [EarthquakeService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

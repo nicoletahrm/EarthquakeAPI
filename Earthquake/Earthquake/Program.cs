@@ -32,6 +32,18 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<IValidator<EarthquakeRequest>, EarthquakeRequestValidator>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsPolicy",
+                              policy =>
+                              {
+                                  policy.WithOrigins("http://localhost:4200")
+                                  .AllowAnyHeader()
+                                  .AllowAnyMethod()
+                                  .AllowCredentials();
+                              });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +52,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 
