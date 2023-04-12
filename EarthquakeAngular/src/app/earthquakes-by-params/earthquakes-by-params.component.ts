@@ -44,4 +44,8 @@ export class EarthquakesByParamsComponent {
         error: (err) => (this.errorMessage = err),
       });
   }
+
+  clickEarthquake(earthquake: EarthquakeResponse) {
+    this.earthquakeService.updateApprovalMessage(earthquake);
+  }
 }

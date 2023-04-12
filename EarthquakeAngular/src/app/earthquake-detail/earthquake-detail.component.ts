@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { EarthquakeResponse } from '../models/earthquake-response';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EarthquakeService } from '../services/earthquake.service';
+import { EarthquakeRequest } from '../models/earthquakes-request';
 
 @Component({
   selector: 'app-earthquake-detail',
@@ -10,7 +11,7 @@ import { EarthquakeService } from '../services/earthquake.service';
 })
 export class EarthquakeDetailComponent {
   pageTitle: string = 'Earthquake detail';
-  earthquake: EarthquakeResponse | undefined;
+  earthquake: EarthquakeResponse;
   errorMessage = '';
 
   constructor(
@@ -22,8 +23,11 @@ export class EarthquakeDetailComponent {
   ngOnInit(): void {
     const id = String(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.getEarthquake(id);
+      //this.getEarthquake(id);
     }
+    this.earthquakeService.currentEarthQuake.subscribe(
+      (result) => (this.earthquake = result)
+    );
   }
 
   getEarthquake(id: string): void {
@@ -34,6 +38,6 @@ export class EarthquakeDetailComponent {
   }
 
   onBack(): void {
-    this.router.navigate(['/products']);
+    this.router.navigate(['/welcome']);
   }
 }

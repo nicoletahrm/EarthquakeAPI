@@ -5,7 +5,15 @@ import {
   HttpHeaders,
   HttpParams,
 } from '@angular/common/http';
-import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  map,
+  of,
+  tap,
+  throwError,
+} from 'rxjs';
 import { EarthquakeResponse } from '../models/earthquake-response';
 import { EarthquakeRequest } from '../models/earthquakes-request';
 
@@ -19,11 +27,18 @@ export class EarthquakeService {
   earthquakesWithParamsUrl =
     'https://localhost:7067/api/earthquakes/earthquakes-by-params';
 
-  earthquakesResponse: Observable<EarthquakeResponse[]> | undefined;
+  earthquakesResponse!: Observable<EarthquakeResponse[]>;
+
+  private earthQuake: BehaviorSubject<EarthquakeResponse> = null;
+  currentEarthQuake = this.earthQuake.asObservable();
 
   constructor(private http: HttpClient) {}
 
-  getLastEarthquakeFromRomania(): Observable<EarthquakeResponse> {
+  updateApprovalMessage(earthQuake: EarthquakeResponse) {
+    this.earthQuake.next(earthQuake);
+  }
+
+  getLastEarthquakeFromRomania(): Observable<EarthquakeResponse | undefined> {
     return this.http
       .get<EarthquakeResponse>(this.lastEarthquakeRomaniaUrl)
       .pipe(
@@ -53,15 +68,18 @@ export class EarthquakeService {
     return this.earthquakesResponse;
   }
 
-  getEarthquakeById(id: string): Observable<EarthquakeResponse | undefined> {
-    if (this.earthquakesResponse) {
-      return this.earthquakesResponse.pipe(
-        map((earthquakes: EarthquakeResponse[]) =>
-          earthquakes.find((e) => e.id === id.toString())
-        )
-      );
-    }
-    return of(undefined);
+  getEarthquakeById(id: string) {
+    this.earthquakesResponse.subscribe((result) => console.log(result));
+
+    return this.earthquakesResponse.pipe(
+      map((earthquakes) => earthquakes.find((e) => e.id === id.toString()))
+    );
+
+    // return this.earthquakesResponse.pipe(
+    //   map((earthquakes: EarthquakeResponse[]) =>
+    //     earthquakes.find((e) => e.id === id.toString())
+    //   )
+    // );
   }
 
   private handleError(err: HttpErrorResponse): Observable<never> {

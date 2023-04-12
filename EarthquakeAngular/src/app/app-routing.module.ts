@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'earthquake-by-params', component: EarthquakesByParamsComponent },
   {
     path: 'earthquake-by-params/:id',
+    
     component: EarthquakeDetailComponent,
   },
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },

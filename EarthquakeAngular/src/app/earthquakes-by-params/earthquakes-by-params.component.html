@@ -50,7 +50,7 @@
 
             <tbody class="table" *ngIf="earthquakesToDisplay && earthquakesToDisplay.length">
                 <tr *ngFor="let earthquake of earthquakesToDisplay">
-                    <a [routerLink]="['/earthquake-by-params', earthquake.id]">
+                    <a [routerLink]="['/earthquake-by-params']" onclick="clickEarthquake(earthquake)">
                     <td>{{ earthquake.magnitude }}</td>
                     <td>{{ earthquake.place }}</td>
                     <td>{{ earthquake.type }}</td>
