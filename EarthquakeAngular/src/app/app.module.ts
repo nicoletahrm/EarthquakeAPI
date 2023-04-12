@@ -7,10 +7,26 @@ import { EarthquakeRomaniaComponent } from './earthquake-romania/earthquake-roma
 import { HttpClientModule } from '@angular/common/http';
 import { EarthquakeService } from './services/earthquake.service';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { EarthquakesByParamsComponent } from './earthquakes-by-params/earthquakes-by-params.component';
+import { FormsModule } from '@angular/forms';
+import { EarthquakeDetailComponent } from './earthquake-detail/earthquake-detail.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [AppComponent, EarthquakeRomaniaComponent, WelcomeComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  declarations: [
+    AppComponent,
+    EarthquakeRomaniaComponent,
+    WelcomeComponent,
+    EarthquakesByParamsComponent,
+    EarthquakeDetailComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    RouterModule,
+  ],
   providers: [EarthquakeService],
   bootstrap: [AppComponent],
 })

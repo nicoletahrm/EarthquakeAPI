@@ -1,4 +1,4 @@
-export interface Earthquake {
+export interface EarthquakeResponse {
   id: string;
   magnitude: number;
   place: string;

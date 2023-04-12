@@ -1,0 +1,62 @@
+<div class="card">
+    <div class="card-header">
+        {{pageTitle}}
+    </div>
+    <br>
+
+    <div class="form-group">
+        <label for="start-date">Start Date:</label>
+        <input type="date" class="form-control" id="start-date" [(ngModel)]="start">
+    </div>
+
+    <br>
+
+    <div class="form-group">
+        <label for="end-date">End Date:</label>
+        <input type="date" class="form-control" id="end-date" [(ngModel)]="end">
+    </div>
+
+    <br>
+
+    <div class="form-group">
+        <label for="end-date">End Date:</label>
+        <input type="number" class="form-control" id="end-date" [(ngModel)]="maxMagnitude">
+    </div>
+
+    <br>
+
+    <div class="form-group">
+        <label for="end-date">End Date:</label>
+        <input type="text" class="form-control" id="end-date" [(ngModel)]="orderBy">
+    </div>
+
+    <br>
+
+    <button type="button" class="btn btn-primary" (click)="searchEarthquakes()">Search</button>
+
+</div>
+<br><br>
+<div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Magnitude</th>
+                    <th>Place</th>
+                    <th>Type</th>
+                    <th>Coordinates</th>
+                </tr>
+            </thead>
+
+            <tbody class="table" *ngIf="earthquakesToDisplay && earthquakesToDisplay.length">
+                <tr *ngFor="let earthquake of earthquakesToDisplay">
+                    <a [routerLink]="['/earthquake-by-params', earthquake.id]">
+                    <td>{{ earthquake.magnitude }}</td>
+                    <td>{{ earthquake.place }}</td>
+                    <td>{{ earthquake.type }}</td>
+                    <td>{{ earthquake.coordinates }}</td></a>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

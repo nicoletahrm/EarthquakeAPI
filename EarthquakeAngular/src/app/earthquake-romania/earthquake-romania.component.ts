@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { EarthquakeService } from '../services/earthquake.service';
-import { Earthquake } from '../models/earthquake';
+import { EarthquakeResponse } from '../models/earthquake-response';
 
 @Component({
   selector: 'app-earthquake-romania',
@@ -9,7 +9,7 @@ import { Earthquake } from '../models/earthquake';
 })
 export class EarthquakeRomaniaComponent {
   pageTitle: string = 'Last earthquake from Romania';
-  earthquake: Earthquake | undefined;
+  earthquakeResponse: EarthquakeResponse | undefined;
 
   constructor(private earthquakeService: EarthquakeService) {}
 
@@ -19,7 +19,7 @@ export class EarthquakeRomaniaComponent {
 
   getEarthquake() {
     this.earthquakeService.getLastEarthquakeFromRomania().subscribe((data) => {
-      this.earthquake = data;
+      this.earthquakeResponse = data;
     });
   }
 }
