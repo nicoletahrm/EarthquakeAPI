@@ -13,6 +13,7 @@ export class EarthquakesByParamsComponent {
 
   earthquakesToDisplay: EarthquakeResponse[] = [];
   errorMessage: any;
+  
   start: Date = new Date();
   end: Date = new Date();
   maxMagnitude: number = 5;
@@ -29,7 +30,7 @@ export class EarthquakesByParamsComponent {
 
   ngOnInit(): void {}
 
-  searchEarthquakes() {
+  getEarthquakes() {
     this.earthquakeRequest.startTime = this.start;
     this.earthquakeRequest.endTime = this.end;
     this.earthquakeRequest.maxMagnitude = this.maxMagnitude;
@@ -46,6 +47,6 @@ export class EarthquakesByParamsComponent {
   }
 
   clickEarthquake(earthquake: EarthquakeResponse) {
-    this.earthquakeService.updateApprovalMessage(earthquake);
+    this.earthquakeService.updateEarthquake(earthquake);
   }
 }

@@ -28,8 +28,10 @@ namespace Earthquake.API.Processor
             string lat = "45.9432";
             string lon = "24.9668";
             string radius = "500";
+            DateTime start = DateTime.Now.AddMonths(-6);
+            DateTime end = DateTime.Now;
 
-            var response = await httpClient.GetAsync($"{_baseUrl}&latitude={lat}&longitude={lon}&maxradiuskm={radius}&limit=1");
+            var response = await httpClient.GetAsync($"{_baseUrl}&starttime={start}&endtime={end}&latitude={lat}&longitude={lon}&maxradiuskm={radius}&limit=1");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -39,9 +41,15 @@ namespace Earthquake.API.Processor
             var content = await response.Content.ReadAsStringAsync();
             var earthquake = JsonConvert.DeserializeObject<Earthquake>(content).Features.FirstOrDefault();
 
+            if (earthquake == null)
+            {
+                return new BadRequestResult();
+            }
+
             EarthquakeEntity earthquakeEntity = _mapper.Map<EarthquakeEntity>(earthquake);
             earthquakeEntity.Id = Guid.NewGuid().ToString();
 
+            
             if (await _earthquakeRepository.Create(earthquakeEntity))
             {
                 EarthquakeResponse earthquakeResponse = _mapper.Map<EarthquakeResponse>(earthquakeEntity);

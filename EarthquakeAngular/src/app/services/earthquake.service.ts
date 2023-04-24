@@ -29,13 +29,22 @@ export class EarthquakeService {
 
   earthquakesResponse!: Observable<EarthquakeResponse[]>;
 
-  private earthQuake: BehaviorSubject<EarthquakeResponse> = null;
-  currentEarthQuake = this.earthQuake.asObservable();
+  initialValue: EarthquakeResponse = {
+    id: '',
+    coordinates: [],
+    magnitude: 5,
+    place: '',
+    type: '',
+  };
+
+  public earthquake: BehaviorSubject<EarthquakeResponse> = new BehaviorSubject(
+    this.initialValue
+  );
 
   constructor(private http: HttpClient) {}
 
-  updateApprovalMessage(earthQuake: EarthquakeResponse) {
-    this.earthQuake.next(earthQuake);
+  updateEarthquake(earthquake: EarthquakeResponse) {
+    this.earthquake.next(earthquake);
   }
 
   getLastEarthquakeFromRomania(): Observable<EarthquakeResponse | undefined> {
@@ -74,12 +83,6 @@ export class EarthquakeService {
     return this.earthquakesResponse.pipe(
       map((earthquakes) => earthquakes.find((e) => e.id === id.toString()))
     );
-
-    // return this.earthquakesResponse.pipe(
-    //   map((earthquakes: EarthquakeResponse[]) =>
-    //     earthquakes.find((e) => e.id === id.toString())
-    //   )
-    // );
   }
 
   private handleError(err: HttpErrorResponse): Observable<never> {

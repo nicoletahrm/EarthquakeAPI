@@ -19,20 +19,20 @@
     <br>
 
     <div class="form-group">
-        <label for="end-date">End Date:</label>
-        <input type="number" class="form-control" id="end-date" [(ngModel)]="maxMagnitude">
+        <label for="magnitude">Magnitude:</label>
+        <input type="number" class="form-control" id="magnitude" [(ngModel)]="maxMagnitude">
     </div>
 
     <br>
 
     <div class="form-group">
-        <label for="end-date">End Date:</label>
-        <input type="text" class="form-control" id="end-date" [(ngModel)]="orderBy">
+        <label for="order-by">Order by:</label>
+        <input type="text" class="form-control" id="order-by" [(ngModel)]="orderBy">
     </div>
 
     <br>
 
-    <button type="button" class="btn btn-primary" (click)="searchEarthquakes()">Search</button>
+    <button type="button" class="btn btn-primary" (click)="getEarthquakes()">Search</button>
 
 </div>
 <br><br>
@@ -49,12 +49,11 @@
             </thead>
 
             <tbody class="table" *ngIf="earthquakesToDisplay && earthquakesToDisplay.length">
-                <tr *ngFor="let earthquake of earthquakesToDisplay">
-                    <a [routerLink]="['/earthquake-by-params']" onclick="clickEarthquake(earthquake)">
+                <tr class="tr-earthquake" *ngFor="let earthquake of earthquakesToDisplay" [routerLink]="['/earthquake-by-params', earthquake.id]" (click)="clickEarthquake(earthquake)">
                     <td>{{ earthquake.magnitude }}</td>
                     <td>{{ earthquake.place }}</td>
                     <td>{{ earthquake.type }}</td>
-                    <td>{{ earthquake.coordinates }}</td></a>
+                    <td>{{ earthquake.coordinates }}</td>
                 </tr>
             </tbody>
         </table>
