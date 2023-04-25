@@ -2,8 +2,16 @@ import { Component } from '@angular/core';
 import { EarthquakeResponse } from '../models/earthquake-response';
 import { EarthquakeService } from '../services/earthquake.service';
 import { EarthquakeRequest } from '../models/earthquakes-request';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject, filter, takeUntil } from 'rxjs';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { Subject, filter, startWith, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-earthquakes-by-params',
@@ -17,15 +25,22 @@ export class EarthquakesByParamsComponent {
   errorMessage: any;
   earthquakeForm: FormGroup;
   private unsubscribe$ = new Subject();
+  message: String = 'Invalid date';
+  message1: String = 'StartDate  > EndDate';
+
+  items = ['', 'time', 'time-asc', 'magnitude', 'magnitude-asc'];
+  selectedItem = this.items[0];
 
   initializeRequest() {
-
-    this.earthquakeForm = this.fb.group({
-      start: [null, [Validators.required]],
-      end: [null, [Validators.required]],
-      magnitude: [null],
-      orderBy: [null],
-    });
+    this.earthquakeForm = this.fb.group(
+      {
+        start: [null, [Validators.required, this.dateValidator]],
+        end: [null, [Validators.required, this.dateValidator]],
+        magnitude: [null],
+        orderBy: [this.items[0]],
+      },
+      { validator: this.startDateAfterEndDate }
+    );
 
     this.earthquakeForm.valueChanges
       .pipe(
@@ -98,4 +113,36 @@ export class EarthquakesByParamsComponent {
   get getOrderBy() {
     return this.earthquakeForm.get('orderBy');
   }
+
+  dateValidator: ValidatorFn = (
+    control: AbstractControl
+  ): { [key: string]: any } | null => {
+    let date = control.value;
+
+    if (date === '' || date == null) {
+      return null;
+    }
+
+    const selectedDate = new Date(control.value);
+    const currentDate = new Date();
+
+    if (selectedDate > currentDate) {
+      return { dateInFuture: true };
+    }
+
+    return null;
+  };
+
+  startDateAfterEndDate: ValidatorFn = (
+    control: AbstractControl
+  ): { [key: string]: any } | null => {
+    const start = control.get('start')?.value;
+    const end = control.get('end')?.value;
+
+    if (start >= end) {
+      return { startError: true };
+    }
+
+    return null;
+  };
 }

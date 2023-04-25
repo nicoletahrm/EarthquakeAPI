@@ -4,29 +4,34 @@
     </div>
     <br>
 
-    <form [formGroup]="earthquakeForm">
+    <form class="card-body" [formGroup]="earthquakeForm">
         <div class="form-group">
-            <label 
-            for="start-date"
-            [class.theme-input-required-asterisk]="!earthquakeForm.get('start')?.value"
-            >Start Date:</label>
+            <label for="start-date" [class.theme-input-required-asterisk]="!earthquakeForm.get('start')?.value">Start
+                date:</label>
             <input type="date" class="form-control" id="start-date" formControlName="start">
+
+            <p *ngIf="earthquakeForm.get('start')?.errors?.['dateInFuture']">{{ message }}</p>
+
         </div>
 
         <br>
 
         <div class="form-group">
-            <label 
-            for="end-date"
-            [class.theme-input-required-asterisk]="!earthquakeForm.get('end')?.value"
-            >End Date:</label>
+            <label for="end-date" [class.theme-input-required-asterisk]="!earthquakeForm.get('end')?.value">End
+                date:</label>
             <input type="date" class="form-control" id="end-date" formControlName="end">
+
+            <p *ngIf="earthquakeForm.get('end')?.errors?.['dateInFuture']">{{ message }}</p>
+
+            <p *ngIf="earthquakeForm.get('start')?.errors?.['startError']">
+                {{ message1 }}
+            </p>
         </div>
 
         <br>
 
         <div class="form-group">
-            <label for="magnitude">Magnitude:</label>
+            <label for="magnitude">Max magnitude:</label>
             <input type="number" class="form-control" id="magnitude" formControlName="magnitude">
         </div>
 
@@ -34,12 +39,16 @@
 
         <div class="form-group">
             <label for="order-by">Order by:</label>
-            <input type="text" class="form-control" id="order-by" formControlName="orderBy">
+            <select class="form-select" formControlName="orderBy">
+                <option *ngFor="let item of items" [value]="item">
+                    {{item}}
+                </option>
+            </select>
         </div>
 
         <br>
 
-        <button type="button" class="btn btn-primary" (click)="getEarthquakes()">Search</button>
+        <button type="button" [disabled]="!earthquakeForm.valid" class="btn btn-primary" (click)="getEarthquakes()">Search</button>
     </form>
 
 </div>
