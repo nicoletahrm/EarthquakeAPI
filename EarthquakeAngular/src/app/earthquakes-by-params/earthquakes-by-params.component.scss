@@ -5,3 +5,8 @@
 .tr-earthquake:hover {
     background-color: #f0f5f5;
 }
+
+.theme-input-required-asterisk:after {
+    color: red;
+    content: ' *';
+}

@@ -4,35 +4,43 @@
     </div>
     <br>
 
-    <div class="form-group">
-        <label for="start-date">Start Date:</label>
-        <input type="date" class="form-control" id="start-date" [(ngModel)]="start">
-    </div>
+    <form [formGroup]="earthquakeForm">
+        <div class="form-group">
+            <label 
+            for="start-date"
+            [class.theme-input-required-asterisk]="!earthquakeForm.get('start')?.value"
+            >Start Date:</label>
+            <input type="date" class="form-control" id="start-date" formControlName="start">
+        </div>
 
-    <br>
+        <br>
 
-    <div class="form-group">
-        <label for="end-date">End Date:</label>
-        <input type="date" class="form-control" id="end-date" [(ngModel)]="end">
-    </div>
+        <div class="form-group">
+            <label 
+            for="end-date"
+            [class.theme-input-required-asterisk]="!earthquakeForm.get('end')?.value"
+            >End Date:</label>
+            <input type="date" class="form-control" id="end-date" formControlName="end">
+        </div>
 
-    <br>
+        <br>
 
-    <div class="form-group">
-        <label for="magnitude">Magnitude:</label>
-        <input type="number" class="form-control" id="magnitude" [(ngModel)]="maxMagnitude">
-    </div>
+        <div class="form-group">
+            <label for="magnitude">Magnitude:</label>
+            <input type="number" class="form-control" id="magnitude" formControlName="magnitude">
+        </div>
 
-    <br>
+        <br>
 
-    <div class="form-group">
-        <label for="order-by">Order by:</label>
-        <input type="text" class="form-control" id="order-by" [(ngModel)]="orderBy">
-    </div>
+        <div class="form-group">
+            <label for="order-by">Order by:</label>
+            <input type="text" class="form-control" id="order-by" formControlName="orderBy">
+        </div>
 
-    <br>
+        <br>
 
-    <button type="button" class="btn btn-primary" (click)="getEarthquakes()">Search</button>
+        <button type="button" class="btn btn-primary" (click)="getEarthquakes()">Search</button>
+    </form>
 
 </div>
 <br><br>
@@ -49,7 +57,8 @@
             </thead>
 
             <tbody class="table" *ngIf="earthquakesToDisplay && earthquakesToDisplay.length">
-                <tr class="tr-earthquake" *ngFor="let earthquake of earthquakesToDisplay" [routerLink]="['/earthquake-by-params', earthquake.id]" (click)="clickEarthquake(earthquake)">
+                <tr class="tr-earthquake" *ngFor="let earthquake of earthquakesToDisplay"
+                    [routerLink]="['/earthquake-by-params', earthquake.id]" (click)="clickEarthquake(earthquake)">
                     <td>{{ earthquake.magnitude }}</td>
                     <td>{{ earthquake.place }}</td>
                     <td>{{ earthquake.type }}</td>
