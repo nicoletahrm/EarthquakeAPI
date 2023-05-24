@@ -10,7 +10,7 @@
                 date:</label>
             <input type="date" class="form-control" id="start-date" formControlName="start">
 
-            <p *ngIf="earthquakeForm.get('start')?.errors?.['dateInFuture']">{{ message }}</p>
+            <p *ngIf="earthquakeForm.get('start')?.errors?.['dateInFuture']">{{ messageFutureDate }}</p>
 
         </div>
 
@@ -21,10 +21,10 @@
                 date:</label>
             <input type="date" class="form-control" id="end-date" formControlName="end">
 
-            <p *ngIf="earthquakeForm.get('end')?.errors?.['dateInFuture']">{{ message }}</p>
+            <p *ngIf="earthquakeForm.get('end')?.errors?.['dateInFuture']">{{ messageFutureDate }}</p>
 
-            <p *ngIf="earthquakeForm.get('start')?.errors?.['startError']">
-                {{ message1 }}
+            <p *ngIf="earthquakeForm.errors?.['startError']">
+                {{ messageStartAndEndDate }}
             </p>
         </div>
 
@@ -33,6 +33,12 @@
         <div class="form-group">
             <label for="magnitude">Max magnitude:</label>
             <input type="number" class="form-control" id="magnitude" formControlName="magnitude">
+
+            <p *ngIf="earthquakeForm.get('magnitude')?.errors">
+                {{ messageMagnitude }}
+
+            </p>
+
         </div>
 
         <br>

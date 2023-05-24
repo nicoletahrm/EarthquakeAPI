@@ -5,9 +5,7 @@ import { EarthquakeRequest } from '../models/earthquakes-request';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
@@ -25,8 +23,10 @@ export class EarthquakesByParamsComponent {
   errorMessage: any;
   earthquakeForm: FormGroup;
   private unsubscribe$ = new Subject();
-  message: String = 'Invalid date';
-  message1: String = 'StartDate  > EndDate';
+  messageFutureDate: String = 'Invalid date';
+  messageStartAndEndDate: String = 'StartDate  > EndDate';
+  messageMagnitude: String =
+    'Magnitude needs to be bigger than -1 and less than 10.';
 
   items = ['', 'time', 'time-asc', 'magnitude', 'magnitude-asc'];
   selectedItem = this.items[0];
@@ -36,7 +36,7 @@ export class EarthquakesByParamsComponent {
       {
         start: [null, [Validators.required, this.dateValidator]],
         end: [null, [Validators.required, this.dateValidator]],
-        magnitude: [null],
+        magnitude: [null, [Validators.min(-1), Validators.max(10)]],
         orderBy: [this.items[0]],
       },
       { validator: this.startDateAfterEndDate }
@@ -139,7 +139,7 @@ export class EarthquakesByParamsComponent {
     const start = control.get('start')?.value;
     const end = control.get('end')?.value;
 
-    if (start >= end) {
+    if (start >= end && start != null && end != null) {
       return { startError: true };
     }
 
